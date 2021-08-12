@@ -1,35 +1,11 @@
-//STARTUP SONG
-#define NOTE_G4  392
-#define NOTE_C5  523
-#define NOTE_E5  659
-#define NOTE_G5  784
-#define REST      0
+#include <CuteBuzzerSounds.h>
 
-// change this to make the song slower or faster
-int tempo = 200;
-
-// change this to whichever pin you want to use
 int buzzer = 5;
 
-int melody[] = {
+bool testingInterDeviceConnection = false;
 
-  
-  NOTE_E5,8, NOTE_E5,8, REST,8, NOTE_E5,8, REST,8, NOTE_C5,8, NOTE_E5,8, //1
-  REST,6, NOTE_G5,4, REST,4, NOTE_G4,8
-
-  
-};
-
-// sizeof gives the number of bytes, each int value is composed of two bytes (16 bits)
-// there are two values per note (pitch and duration), so for each note there are four bytes
-int notes = sizeof(melody) / sizeof(melody[0]) / 2;
-
-// this calculates the duration of a whole note in ms
-int wholenote = (60000 * 4) / tempo;
-
-int divider = 0, noteDuration = 0;
-
-//--------------------------
+//Comment out (used to test intruder alarm without second HC-10
+int testIncrement = 0;
 
 //Initialize Motor Code
 // Motor One
@@ -66,41 +42,14 @@ void setup() {
   mySerial.begin(9600);
   Serial.begin(9600);
 
-  digitalWrite(ENA, 5);
-  digitalWrite(ENB, 5);
+  digitalWrite(ENA, 255);
+  digitalWrite(ENB, 255);
 
+cute.init(buzzer);
+cute.play(S_CONNECTION);
 
-
-//SONG
-
-// iterate over the notes of the melody.
-  // Remember, the array is twice the number of notes (notes + durations)
-  for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
-
-    // calculates the duration of each note
-    divider = melody[thisNote + 1];
-    if (divider > 0) {
-      // regular note, just proceed
-      noteDuration = (wholenote) / divider;
-    } else if (divider < 0) {
-      // dotted notes are represented with negative durations!!
-      noteDuration = (wholenote) / abs(divider);
-      noteDuration *= 1.5; // increases the duration in half for dotted notes
-    }
-
-    // we only play the note for 90% of the duration, leaving 10% as a pause
-    tone(buzzer, melody[thisNote], noteDuration * 0.9);
-
-    // Wait for the specief duration before playing the next note.
-    delay(noteDuration);
-
-    // stop the waveform generation before the next note.
-    noTone(buzzer);
-  }
-
-
-//END SONG
- 
+  //Use this to test for distinction task
+ testingInterDeviceConnection = false;
 }
 
 void loop() {
@@ -108,8 +57,15 @@ void loop() {
 
   if(mySerial.available()){
     transmission = mySerial.read();
-    delay(100);;
+    delay(100);
+  
+    // (used to test intruder alarm without second HC-10
+    if (testingInterDeviceConnection){
+      transmission = 'H';
+    }
+    
     Serial.println(transmission);
+    
   } 
 
   if (alarmOn){
@@ -145,41 +101,51 @@ void loop() {
    turnRight();
    
   break;
+  
+  //These stop when no button pushed any longer
+  case 'a':  
+  break;
+  case 'b':  
+  break;
+  case 'c':  
+  break;
+  case 'd':  
+  break;
+  
 
-  case 'G':
+  case 'G': //activate torch with X button
   
    if (!torchOn){
+    Serial.println("Torch activated");
     torchOn = true;
   } else {
+    Serial.println("Torch disabled");
     torchOn = false;
   }
    
   break;
 
-  case 'a':
-  //held straight
-  break;
-
-  case 'c':
-  //held back
-  break;
-
-  case 'd':
-  //held left
-  break;
-
-  case 'b':
-  //held right
-  break;
-
-  case 'F':
+  case 'F': // This case triggers an alarm circle button
   if (!alarmOn){
+     Serial.println("On bard alarm activated");
     alarmOn = true;
   } else if (alarmOn){
+     Serial.println("On bard alarm disabled");
     alarmOn = false;
     alarmOff();
   }
+  break;
   
+  //square button - intruder alert this case triggers a third party alarm
+  case 'H':
+  Serial.println("Intruder alert, send to third party alarm unit");
+  sendMessageToAlarm();
+  break;
+
+  //Triangle button - Hello! (interact with user) 
+  case 'E':
+  playEmotion();
+  break;
    
   default:
   
@@ -187,8 +153,82 @@ void loop() {
   
   break;
 }
- 
 
+  // (used to test intruder alarm without second HC-10
+  if (testingInterDeviceConnection){
+    transmission = ' ';
+    delay(2000);
+  }
+
+}
+
+void sendMessageToAlarm(){
+    String message = "Intruder";
+    //(used to test intruder alarm without second HC-10 (testIncrement)
+    if (testingInterDeviceConnection){
+      message.concat(testIncrement);
+      mySerial.print(message);
+      delay(100);
+      Serial.print("Message sent to Alarm: ");
+      Serial.println(message);
+      testIncrement++;
+    } else {
+       mySerial.print(message);
+      Serial.print("Message sent to Alarm: ");
+      Serial.println(message);
+      delay(100);
+    }
+}
+
+void playEmotion() {
+  //currently just chooses a random emotion
+  int randNumber = random(10);
+  switch (randNumber){
+    case 0:
+    cute.play(S_CUDDLY);
+    Serial.println("Feeling Cuddly");
+    break;
+    case 1:
+    cute.play(S_OHOOH);
+    Serial.println("Feeling WOW!");
+    break;
+    case 2:
+    cute.play(S_SURPRISE);
+    Serial.println("Feeling Surprise");
+    break;
+    case 3:
+    cute.play(S_OHOOH2);
+    Serial.println("Feeling Wow");
+    break;
+    case 4:
+    cute.play(S_SLEEPING);
+    Serial.println("Feeling Sleepy");
+    break;
+    case 5:
+    cute.play(S_HAPPY);
+    Serial.println("Feeling Happy");
+    break;
+    case 6:
+    cute.play(S_SUPER_HAPPY);
+    Serial.println("Feeling Super happy");
+    break; 
+    case 7:
+    cute.play(S_CONFUSED);
+    Serial.println("Feeling Confused");
+    break;
+    case 8:
+    cute.play(S_SAD);
+    Serial.println("Feeling Sad");
+    break;
+    case 9:
+    cute.play(S_FART1);
+    Serial.println("Feeling Smelly");
+    break;
+    default: 
+    break;
+  }
+
+  
 }
 
 void turnRight() {
