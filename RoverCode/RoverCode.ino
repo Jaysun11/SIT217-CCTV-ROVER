@@ -2,11 +2,6 @@
 
 int buzzer = 5;
 
-bool testingInterDeviceConnection;
-
-//Comment out (used to test intruder alarm without second HC-10
-int testIncrement = 0;
-
 //Initialize Motor Code
 // Motor One
 int ENA = 6;
@@ -38,7 +33,6 @@ void setup() {
   pinMode(LED, OUTPUT);
   pinMode(buzzer, OUTPUT);
 
-
   mySerial.begin(9600);
   Serial.begin(9600);
 
@@ -48,26 +42,32 @@ void setup() {
   cute.init(buzzer);
   cute.play(S_CONNECTION);
 
-  //Use this to test for distinction task
-  testingInterDeviceConnection = false;
 }
 
 void loop() {
   char transmission;
-
+  char c;
+  boolean NL = true;
   if (mySerial.available()) {
     transmission = mySerial.read();
     delay(100);
 
-    Serial.println(transmission);
+    Serial.write(transmission);
 
   }
 
-  // (used to test intruder alarm without second HC-10
-  if (testingInterDeviceConnection) {
-    transmission = 'H';
-    Serial.println(transmission);
+  if (Serial.available()) {
+    c = Serial.read();
+ 
+        // do not send line end characters to the HM-10
+        if (c!=10 & c!=13 ) 
+        {  
+             mySerial.write(c);
+        }
+        Serial.write(c);
   }
+
+
 
   if (alarmOn) {
     alarm();
@@ -155,31 +155,18 @@ void loop() {
       break;
   }
 
-  // (used to test intruder alarm without second HC-10
-  if (testingInterDeviceConnection) {
-    transmission = ' ';
-    delay(2000);
-  }
 
 }
 
 void sendMessageToAlarm() {
-  //(used to test intruder alarm without second HC-10 (testIncrement)
-  if (testingInterDeviceConnection) {
-    String message = "I";
-    message.concat(testIncrement);
-    mySerial.print(message);
-    delay(100);
-    Serial.print("Message sent to Alarm: ");
-    Serial.println(message);
-    testIncrement++;
-  } else {
+
     char message = 'I';
     mySerial.write(message);
     Serial.print("Message sent to Alarm: ");
     Serial.println(String(message));
     delay(100);
-  }
+  
+  
 }
 
 void playEmotion() {
