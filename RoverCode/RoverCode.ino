@@ -143,9 +143,45 @@ void loop() {
       sendMessageToAlarm();
       break;
 
-    //Triangle button - Hello! (interact with user)
     case 'E':
-      playEmotion();
+      cute.play(S_CUDDLY);
+      Serial.println("Feeling Cuddly");
+      break;
+      case 'Z':
+      cute.play(S_OHOOH);
+      Serial.println("Feeling WOW!");
+      break;
+      case 'X':
+      cute.play(S_SURPRISE);
+      Serial.println("Feeling Surprise");
+      break;
+      case 'V':
+      cute.play(S_OHOOH2);
+      Serial.println("Feeling Wow");
+      break;
+      case '?':
+      cute.play(S_SLEEPING);
+      Serial.println("Feeling Sleepy");
+      break;
+      case 'N':
+      cute.play(S_HAPPY);
+      Serial.println("Feeling Happy");
+      break;
+      case 'M':
+      cute.play(S_SUPER_HAPPY);
+      Serial.println("Feeling Super happy");
+      break;
+      case '<':
+      cute.play(S_CONFUSED);
+      Serial.println("Feeling Confused");
+      break;
+      case '>':
+      cute.play(S_SAD);
+      Serial.println("Feeling Sad");
+      break;
+      case '/':
+      cute.play(S_FART1);
+      Serial.println("Feeling Smelly");
       break;
 
     default:
@@ -167,57 +203,6 @@ void sendMessageToAlarm() {
     delay(100);
   
   
-}
-
-void playEmotion() {
-  //currently just chooses a random emotion
-  int randNumber = random(10);
-  switch (randNumber) {
-    case 0:
-      cute.play(S_CUDDLY);
-      Serial.println("Feeling Cuddly");
-      break;
-    case 1:
-      cute.play(S_OHOOH);
-      Serial.println("Feeling WOW!");
-      break;
-    case 2:
-      cute.play(S_SURPRISE);
-      Serial.println("Feeling Surprise");
-      break;
-    case 3:
-      cute.play(S_OHOOH2);
-      Serial.println("Feeling Wow");
-      break;
-    case 4:
-      cute.play(S_SLEEPING);
-      Serial.println("Feeling Sleepy");
-      break;
-    case 5:
-      cute.play(S_HAPPY);
-      Serial.println("Feeling Happy");
-      break;
-    case 6:
-      cute.play(S_SUPER_HAPPY);
-      Serial.println("Feeling Super happy");
-      break;
-    case 7:
-      cute.play(S_CONFUSED);
-      Serial.println("Feeling Confused");
-      break;
-    case 8:
-      cute.play(S_SAD);
-      Serial.println("Feeling Sad");
-      break;
-    case 9:
-      cute.play(S_FART1);
-      Serial.println("Feeling Smelly");
-      break;
-    default:
-      break;
-  }
-
-
 }
 
 void turnRight() {
