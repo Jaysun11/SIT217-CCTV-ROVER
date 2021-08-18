@@ -18,25 +18,25 @@ let emotion_button = document.getElementById('emotion_button');
 
 forward_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('A'); //
+  send('A\n'); //
   send(' '); //
 });
 
 backward_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('C'); //
+  send('C\n'); //
   send(' '); //
 });
 
 left_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('D'); //
+  send('D\n'); //
   send(' '); //
 });
 
 right_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('B'); //
+  send('B\n'); //
   inputField.value = '';  //
   inputField.focus();     //
   send(' '); //
@@ -44,7 +44,7 @@ right_button.addEventListener('click', function() {
 
 light_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('G'); //
+  send('G\n'); //
   inputField.value = '';  //
   inputField.focus();     //
   send(' '); //
@@ -52,7 +52,7 @@ light_button.addEventListener('click', function() {
 
 photo_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send(' '); //
+  send(' \n'); //
   inputField.value = '';  //
   inputField.focus();     //
   send(' '); //
@@ -60,7 +60,7 @@ photo_button.addEventListener('click', function() {
 
 alarm_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('F'); //
+  send('F\n'); //
   inputField.value = '';  //
   inputField.focus();     //
   send(' '); //
@@ -68,7 +68,7 @@ alarm_button.addEventListener('click', function() {
 
 emotion_button.addEventListener('click', function() {
   event.preventDefault(); //
-  send('E'); //
+  send('E\n'); //
   inputField.value = '';  //
   inputField.focus();     //
   send(' '); //
@@ -76,6 +76,54 @@ emotion_button.addEventListener('click', function() {
 
 
 //end Buttons
+
+//arrow keys
+var isKeyDown = false;
+
+document.addEventListener('keydown', function(e) {
+    switch (e.keyCode) {
+        case 37:
+          event.preventDefault(); //
+          send('D'); //
+            break;
+        case 38:
+        event.preventDefault(); //
+        send('A'); //
+            break;
+        case 39:
+        event.preventDefault(); //
+        send('B'); //
+            break;
+        case 40:
+        event.preventDefault(); //
+        send('C'); //
+            break;
+    }
+});
+
+document.addEventListener('keyup', function(e) {
+    switch (e.keyCode) {
+        case 37:
+          event.preventDefault(); //
+          send(' '); //
+            break;
+        case 38:
+        event.preventDefault(); //
+        send(' '); //
+            break;
+        case 39:
+        event.preventDefault(); //
+        send(' '); //
+            break;
+        case 40:
+        event.preventDefault(); //
+        send(' '); //
+            break;
+    }
+});
+
+
+//end arrow keys
 
 connectButton.addEventListener('click', function() {
   connect();
@@ -198,6 +246,7 @@ function receive(data) {
 function log(data, type = '') {
   terminalContainer.insertAdjacentHTML('beforeend',
       '<div' + (type ? ' class="' + type + '"' : '') + '>' + data + '</div>');
+  terminalContainer.scrollTop = terminalContainer.scrollHeight;
 }
 
 function disconnect() {
@@ -232,7 +281,7 @@ function send(data) {
     return;
   }
 
-  data += '\n';
+  //data += '\n';
 
   if (data.length > 20) {
     let chunks = data.match(/(.|[\r\n]){1,20}/g);
@@ -250,25 +299,25 @@ function send(data) {
   }
 
   switch(data){
-    case 'A\n':
+    case 'A':
     log("Move forward, sent: " + data, 'out');
     break;
-    case 'B\n':
+    case 'B':
     log("Move right, sent: " + data, 'out');
     break;
-    case 'C\n':
+    case 'C':
     log("Move backward, sent: " + data, 'out');
     break;
-    case 'D\n':
+    case 'D':
     log("Move left, sent: " + data, 'out');
     break;
-    case 'G\n':
+    case 'G':
     log("Toggle light, sent: " + data, 'out');
     break;
-    case 'F\n':
+    case 'F':
     log("Toggle alarm, sent: " + data, 'out');
     break;
-    case 'E\n':
+    case 'E':
     log("Communicate, sent: " + data, 'out');
     break;
     default:
