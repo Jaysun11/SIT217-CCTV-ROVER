@@ -6,6 +6,7 @@ let sendForm = document.getElementById('send-form');
 let inputField = document.getElementById('input');
 
 
+
 //Buttons
 let forward_button = document.getElementById('forward_button');
 let backward_button = document.getElementById('backward_button');
@@ -15,63 +16,119 @@ let light_button = document.getElementById('light_button');
 let alarm_button = document.getElementById('alarm_button');
 let photo_button = document.getElementById('photo_button');
 let emotion_button = document.getElementById('emotion_button');
+let emotions_list = document.getElementById('emotions-list');
 
-forward_button.addEventListener('click', function() {
+forward_button.addEventListener('mousedown', function() {
   event.preventDefault(); //
-  send('A\n'); //
+  send('A'); //
+});
+
+backward_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  send('C'); //
+});
+
+left_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  send('D'); //
+});
+
+right_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  send('B'); //
+});
+
+light_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  send('G');
+});
+
+photo_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  send(' ');
+});
+
+alarm_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  send('F');
+});
+
+emotion_button.addEventListener('mousedown', function() {
+  event.preventDefault(); //
+  switch(emotions_list.value){
+    case "cuddly":
+      send('E');
+    break;
+    case "wow":
+      send('Z');
+    break;
+    case "surprise":
+      send('X');
+    break;
+    case "ooh":
+      send('V');
+    break;
+    case "sleepy":
+      send('?');
+    break;
+    case "happy":
+      send('N');
+    break;
+    case "super-happy":
+      send('M');
+    break;
+    case "confused":
+      send('<');
+    break;
+    case "sad":
+      send('>');
+    break;
+    case "fart":
+      send('/');
+    break;
+  }
+
+
+});
+
+forward_button.addEventListener('mouseup', function() {
+  event.preventDefault(); //
   send(' '); //
 });
 
-backward_button.addEventListener('click', function() {
+backward_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send('C\n'); //
   send(' '); //
 });
 
-left_button.addEventListener('click', function() {
+left_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send('D\n'); //
   send(' '); //
 });
 
-right_button.addEventListener('click', function() {
+right_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send('B\n'); //
-  inputField.value = '';  //
-  inputField.focus();     //
   send(' '); //
 });
 
-light_button.addEventListener('click', function() {
+light_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send('G\n'); //
-  inputField.value = '';  //
-  inputField.focus();     //
-  send(' '); //
+  send(' ');
 });
 
-photo_button.addEventListener('click', function() {
+photo_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send(' \n'); //
-  inputField.value = '';  //
-  inputField.focus();     //
-  send(' '); //
+  send(' ');
 });
 
-alarm_button.addEventListener('click', function() {
+alarm_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send('F\n'); //
-  inputField.value = '';  //
-  inputField.focus();     //
-  send(' '); //
+  send(' ');
 });
 
-emotion_button.addEventListener('click', function() {
+emotion_button.addEventListener('mouseup', function() {
   event.preventDefault(); //
-  send('E\n'); //
-  inputField.value = '';  //
-  inputField.focus();     //
-  send(' '); //
+  send(' ');
 });
 
 
@@ -318,7 +375,34 @@ function send(data) {
     log("Toggle alarm, sent: " + data, 'out');
     break;
     case 'E':
-    log("Communicate, sent: " + data, 'out');
+    log("Feeling Cuddly, sent: " + data, 'out');
+    break;
+    case 'Z':
+    log("Feeling wow, sent: " + data, 'out');
+    break;
+    case 'X':
+    log("Feeling surprise, sent: " + data, 'out');
+    break;
+    case 'V':
+    log("Feeling oooh, sent: " + data, 'out');
+    break;
+    case '?':
+    log("Feeling sleepy, sent: " + data, 'out');
+    break;
+    case 'N':
+    log("Feeling happy, sent: " + data, 'out');
+    break;
+    case 'M':
+    log("Feeling super happy, sent: " + data, 'out');
+    break;
+    case '<':
+    log("Feeling confused, sent: " + data, 'out');
+    break;
+    case '>':
+    log("Feeling sad, sent: " + data, 'out');
+    break;
+    case '/':
+    log("Feeling smelly, sent: " + data, 'out');
     break;
     default:
     log(data, 'out');
