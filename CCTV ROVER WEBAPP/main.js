@@ -6,6 +6,77 @@ let sendForm = document.getElementById('send-form');
 let inputField = document.getElementById('input');
 
 
+//Buttons
+let forward_button = document.getElementById('forward_button');
+let backward_button = document.getElementById('backward_button');
+let left_button = document.getElementById('left_button');
+let right_button = document.getElementById('right_button');
+let light_button = document.getElementById('light_button');
+let alarm_button = document.getElementById('alarm_button');
+let photo_button = document.getElementById('photo_button');
+let emotion_button = document.getElementById('emotion_button');
+
+forward_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('A'); //
+  send(' '); //
+});
+
+backward_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('C'); //
+  send(' '); //
+});
+
+left_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('D'); //
+  send(' '); //
+});
+
+right_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('B'); //
+  inputField.value = '';  //
+  inputField.focus();     //
+  send(' '); //
+});
+
+light_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('G'); //
+  inputField.value = '';  //
+  inputField.focus();     //
+  send(' '); //
+});
+
+photo_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send(' '); //
+  inputField.value = '';  //
+  inputField.focus();     //
+  send(' '); //
+});
+
+alarm_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('F'); //
+  inputField.value = '';  //
+  inputField.focus();     //
+  send(' '); //
+});
+
+emotion_button.addEventListener('click', function() {
+  event.preventDefault(); //
+  send('E'); //
+  inputField.value = '';  //
+  inputField.focus();     //
+  send(' '); //
+});
+
+
+//end Buttons
+
 connectButton.addEventListener('click', function() {
   connect();
 });
@@ -178,7 +249,33 @@ function send(data) {
     writeToCharacteristic(characteristicCache, data);
   }
 
-  log(data, 'out');
+  switch(data){
+    case 'A\n':
+    log("Move forward, sent: " + data, 'out');
+    break;
+    case 'B\n':
+    log("Move right, sent: " + data, 'out');
+    break;
+    case 'C\n':
+    log("Move backward, sent: " + data, 'out');
+    break;
+    case 'D\n':
+    log("Move left, sent: " + data, 'out');
+    break;
+    case 'G\n':
+    log("Toggle light, sent: " + data, 'out');
+    break;
+    case 'F\n':
+    log("Toggle alarm, sent: " + data, 'out');
+    break;
+    case 'E\n':
+    log("Communicate, sent: " + data, 'out');
+    break;
+    default:
+    log(data, 'out');
+    break;
+  }
+
 }
 
 function writeToCharacteristic(characteristic, data) {
