@@ -17,6 +17,12 @@ body{
 #connect-buttons{
   width:235px;
 }
+#video-container{
+  width:300px;
+}
+#video{
+  width:100%;
+}
 
 .centre {
   margin: auto;
@@ -87,9 +93,7 @@ body{
   }
 }
 
-.controller-button {
 
-}
 
 #terminal-cont{
   width: 49%;
