@@ -72,7 +72,7 @@ emotion_button.addEventListener('mousedown', function() {
       send('?');
     break;
     case "happy":
-      send('N');
+      send(':');
     break;
     case "super-happy":
       send('M');
@@ -389,7 +389,7 @@ function send(data) {
     case '?':
     log("Feeling sleepy, sent: " + data, 'out');
     break;
-    case 'N':
+    case ':':
     log("Feeling happy, sent: " + data, 'out');
     break;
     case 'M':
