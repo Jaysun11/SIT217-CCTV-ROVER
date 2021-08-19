@@ -147,42 +147,42 @@ void loop() {
       cute.play(S_CUDDLY);
       Serial.println("Feeling Cuddly");
       break;
-      case 'Z':
+     case 'Z':
       cute.play(S_OHOOH);
       Serial.println("Feeling WOW!");
       break;
-      case 'X':
+     case 'X':
       cute.play(S_SURPRISE);
       Serial.println("Feeling Surprise");
       break;
-      case 'V':
+     case 'V':
       cute.play(S_OHOOH2);
       Serial.println("Feeling Wow");
       break;
-      case '?':
+     case '?':
       cute.play(S_SLEEPING);
       Serial.println("Feeling Sleepy");
       break;
-      case 'N':
+     case ':':
       cute.play(S_HAPPY);
       Serial.println("Feeling Happy");
       break;
-      case 'M':
+     case 'M':
       cute.play(S_SUPER_HAPPY);
       Serial.println("Feeling Super happy");
       break;
-      case '<':
+     case '<':
       cute.play(S_CONFUSED);
       Serial.println("Feeling Confused");
       break;
-      case '>':
+     case '>':
       cute.play(S_SAD);
       Serial.println("Feeling Sad");
       break;
-      case '/':
+     case '/':
       cute.play(S_FART1);
       Serial.println("Feeling Smelly");
-      break;
+     break;
 
     default:
 
