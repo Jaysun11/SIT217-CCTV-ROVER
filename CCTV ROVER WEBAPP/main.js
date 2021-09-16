@@ -5,7 +5,14 @@ let terminalContainer = document.getElementById('terminal');
 let sendForm = document.getElementById('send-form');
 let inputField = document.getElementById('input');
 
-
+function capturePhoto(){
+  html2canvas(document.getElementById('video-container'), {
+    onrendered: function(canvas) {
+      // document.body.appendChild(canvas);
+      return Canvas2Image.saveAsPNG(canvas);
+    }
+  });
+ }
 
 //Buttons
 let forward_button = document.getElementById('forward_button');
@@ -45,7 +52,7 @@ light_button.addEventListener('mousedown', function() {
 
 photo_button.addEventListener('mousedown', function() {
   event.preventDefault(); //
-  send(' ');
+  capturePhoto();
 });
 
 alarm_button.addEventListener('mousedown', function() {
